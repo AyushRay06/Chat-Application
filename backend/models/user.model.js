@@ -1,7 +1,4 @@
 import mongoose from "mongoose"
-import { connectDb } from "../lib/db"
-
-connectDb
 
 const userSchema = new mongoose.Schema(
   {
@@ -27,3 +24,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 )
 const User = mongoose.model("User", userSchema)
+export default User
