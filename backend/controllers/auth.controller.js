@@ -45,6 +45,7 @@ export const signup = async (req, res) => {
         email: newUser.email,
         fullName: newUser.fullName,
         profilePic: newUser.profilePic,
+        //password: newUser.password,
         //token: generateToken(newUser._id),
       })
     }
