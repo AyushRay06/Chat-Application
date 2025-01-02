@@ -1,6 +1,7 @@
 import bycrypt from "bcryptjs"
 import User from "../models/user.model.js"
 import { generateToken } from "../lib/utils.js"
+import cloudinary from "../lib/cloudniary.js"
 
 //---------Signup controller-------------------------------------
 
@@ -109,4 +110,35 @@ export const logout = (req, res) => {
 
 //---------Update Profile Picture controller-------------------------------------
 
-export const updateProfile = async (req, res) => {}
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body
+    const userId = req.user._id
+
+    if (!profilePic) {
+      return res.status(400).json({ message: "Profile picture is required" })
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic)
+    const updatedUser = await User.findBtIdAndUpdate(
+      userId,
+      { profilePic: uploadResponse.secure_url },
+      { new: true }
+    )
+    res.status(200).json(updatedUser)
+  } catch (error) {
+    console.log("Error in UPDATEPROFILE!!!: ", error.message)
+    res.status(500).json({ message: "Something went wrong" })
+  }
+}
+
+//---------Check Auth controller-------------------------------------
+
+export const checkAuth = async (req, res) => {
+  try {
+    res.status(200).json(req.user)
+  } catch (error) {
+    console.log("Error in CHECKAUTH!!!: ", error.message)
+    res.status(500).json({ message: "Something went wrong" })
+  }
+}

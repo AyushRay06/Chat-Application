@@ -13,6 +13,7 @@ app.use(cookieParser())
 const port = process.env.PORT || 5001
 
 app.use("/api/auth", authRoutes)
+app.use("/api/message", messageRoutes)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
