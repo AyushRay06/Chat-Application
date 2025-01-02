@@ -106,3 +106,7 @@ export const logout = (req, res) => {
     res.status(500).json({ message: "Something went wrong" })
   }
 }
+
+//---------Update Profile Picture controller-------------------------------------
+
+export const updateProfile = async (req, res) => {}
