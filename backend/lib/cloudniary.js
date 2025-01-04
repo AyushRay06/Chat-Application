@@ -1,6 +1,6 @@
 import { config } from "dotenv"
 import { v2 as cloudinary } from "cloudinary"
-
+//config() method is used to read the .env file and assign it to process.env
 config()
 
 cloudinary.config({
