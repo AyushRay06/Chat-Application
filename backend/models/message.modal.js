@@ -1,5 +1,3 @@
-import { text } from "express"
-import { image } from "framer-motion/client"
 import mongoose from "mongoose"
 
 const messageSchema = new mongoose.Schema(
@@ -9,7 +7,7 @@ const messageSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    recivetId: {
+    receiverId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
