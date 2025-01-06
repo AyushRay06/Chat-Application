@@ -1,16 +1,24 @@
-import { Routes, Route, Navigate } from "react-router-dom"
-import Navbar from "./components/navbar"
-import HomePage from "./pages/homepage"
-import SignupPage from "./pages/signup"
-import LoginPage from "./pages/LoginPage"
-import SettingsPage from "./pages/settings"
-import ProfilePage from "./pages/profile"
-import { useAuthStore } from "./store/useAuthStore"
-import { useEffect } from "react"
-import { Loader } from "lucide-react"
+import Navbar from "./components/Navbar"
 
-function App() {
-  const { checkAuth, authUser, isCheckingAuth } = useAuthStore()
+import HomePage from "./pages/HomePage"
+import SignUpPage from "./pages/SignUpPage"
+import LoginPage from "./pages/LoginPage"
+import SettingsPage from "./pages/SettingsPage"
+import ProfilePage from "./pages/ProfilePage"
+
+import { Routes, Route, Navigate } from "react-router-dom"
+import { useAuthStore } from "./store/useAuthStore"
+import { useThemeStore } from "./store/useThemeStore"
+import { useEffect } from "react"
+
+import { Loader } from "lucide-react"
+import { Toaster } from "react-hot-toast"
+
+const App = () => {
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore()
+  const { theme } = useThemeStore()
+
+  console.log({ onlineUsers })
 
   useEffect(() => {
     checkAuth()
@@ -20,24 +28,23 @@ function App() {
 
   if (isCheckingAuth && !authUser)
     return (
-      <div className="flex h-screen items-center justify-center ">
-        <div className="animate-spin size-10">
-          <Loader />
-        </div>
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-10 animate-spin" />
       </div>
     )
+
   return (
-    <div>
+    <div data-theme={theme}>
       <Navbar />
+
       <Routes>
         <Route
           path="/"
-          //route protected by auth
           element={authUser ? <HomePage /> : <Navigate to="/login" />}
         />
         <Route
           path="/signup"
-          element={!authUser ? <SignupPage /> : <Navigate to="/" />}
+          element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
         />
         <Route
           path="/login"
@@ -49,8 +56,9 @@ function App() {
           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
         />
       </Routes>
+
+      <Toaster />
     </div>
   )
 }
-
 export default App
